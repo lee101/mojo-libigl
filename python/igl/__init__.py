@@ -10,7 +10,7 @@ import numpy as np
 from scipy import sparse
 from scipy.sparse import linalg as splinalg
 
-from ._lib import addr, lib
+from ._lib import addr, fan_out, lib, worker_count
 
 
 class MassMatrixType(IntEnum):
@@ -253,15 +253,19 @@ def winding_number(V, F, O, device="cpu"):
             if not used_gpu:
                 raise RuntimeError("the Mojo GPU winding-number kernel failed")
         if not used_gpu:
-            work = len(faces) * len(queries)
-            workers = min(16, len(queries)) if work >= 262_144 else 1
-            lib().mli_winding(
-                addr(triangles),
-                addr(queries),
-                addr(result),
-                len(faces),
+            # Every query-face pair costs three square roots and an arctangent,
+            # so the sweep is transcendental bound and the query rows split.
+            fan_out(
+                lib().mli_winding,
+                (
+                    addr(triangles),
+                    addr(queries),
+                    addr(result),
+                    len(faces),
+                    len(queries),
+                ),
                 len(queries),
-                workers,
+                worker_count(len(queries), len(faces) * len(queries)),
             )
     return float(result[0]) if scalar else result
 
@@ -344,8 +348,7 @@ class AABB:
         sqrd = np.empty(len(points), dtype=np.float64)
         indices = np.empty(len(points), dtype=np.int64)
         closest = np.empty((len(points), 3), dtype=np.float64)
-        workers = min(16, len(points)) if len(points) >= 256 else 1
-        stack = np.empty((workers, stack_size), dtype=np.int64)
+        stack = np.empty(stack_size, dtype=np.int64)
         if len(points):
             lib().mli_aabb_squared_distance(
                 addr(points),
@@ -360,8 +363,8 @@ class AABB:
                 addr(stack),
                 len(points),
                 len(nodes),
-                stack_size,
-                workers,
+                0,
+                len(points),
             )
         return sqrd, indices, closest
 
@@ -564,9 +567,13 @@ def arap_solve(bc, data, U):
                 len(data._F),
                 data._dim,
             )
-        workers = min(16, data.n) if data.n >= 512 else 1
-        lib().mli_arap_rotations(
-            addr(covariance), addr(rotations), data.n, data._dim, workers
+        # Each vertex runs a Jacobi eigendecomposition with dozens of square
+        # roots, so the vertex range splits.
+        fan_out(
+            lib().mli_arap_rotations,
+            (addr(covariance), addr(rotations), data.n, data._dim),
+            data.n,
+            worker_count(data.n, data.n),
         )
         if data._resolved_energy == int(ARAP_ENERGY_TYPE_SPOKES):
             lib().mli_arap_rhs(

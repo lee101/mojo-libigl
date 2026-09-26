@@ -4,9 +4,8 @@ Python owns every allocation. Dense arrays are row-major and sparse assembly
 is performed by SciPy from per-face values computed here.
 """
 
-from std.algorithm import parallelize
-from std.gpu import global_idx
-from std.gpu.host import DeviceContext
+from max.gpu import global_idx
+from max.gpu.host import DeviceContext
 from std.math import acos, atan2, sqrt
 from std.sys.info import simd_width_of
 
@@ -251,27 +250,19 @@ def winding_one(tri: FPtr, ox: Float64, oy: Float64, oz: Float64, nf: Int) -> Fl
     return total / (2.0 * PI)
 
 
-def winding(tri: FPtr, q: FPtr, dst: FPtr, nf: Int, nq: Int, workers: Int):
-    @parameter
-    @__copy_capture(tri, q, dst, nf, nq, workers)
-    def process(worker: Int):
-        var q0 = worker * nq // workers
-        var q1 = (worker + 1) * nq // workers
-        for qi in range(q0, q1):
-            dst[qi] = winding_one(
-                tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf
-            )
-
-    if workers > 1:
-        parallelize[process](workers, workers)
-    else:
-        process(0)
+def winding(tri: FPtr, q: FPtr, dst: FPtr, nf: Int, nq: Int, q0: Int, q1: Int):
+    # Every query-face pair costs three square roots and an arctangent, so the
+    # sweep is transcendental bound rather than bandwidth bound and the shim
+    # splits the query range across a thread pool.
+    for qi in range(q0, q1):
+        dst[qi] = winding_one(tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf)
 
 
 def winding_angles_gpu(
-    tri: FPtr, q: FPtr, angles: FPtr, nf: Int, nq: Int
+    tri: FPtr, q: FPtr, angles: FPtr, nf: Int32, nq: Int32
 ):
-    var pair = global_idx.x
+    # 1.2.0 requires device-passable scalars to be fixed width.
+    var pair = Int32(global_idx.x)
     if pair >= nf * nq:
         return
     var fi = pair // nq
@@ -326,8 +317,8 @@ def winding_angles_gpu(
     angles[pair] = angle
 
 
-def winding_reduce_gpu(angles: FPtr, dst: FPtr, nf: Int, nq: Int):
-    var qi = global_idx.x
+def winding_reduce_gpu(angles: FPtr, dst: FPtr, nf: Int32, nq: Int32):
+    var qi = Int32(global_idx.x)
     if qi >= nq:
         return
     var total = 0.0
@@ -351,16 +342,16 @@ def try_winding_gpu(
             tri_device,
             q_device,
             angles_device,
-            nf,
-            nq,
+            Int32(nf),
+            Int32(nq),
             grid_dim=(nf * nq + 255) // 256,
             block_dim=256,
         )
         ctx.enqueue_function[winding_reduce_gpu](
             angles_device,
             dst_device,
-            nf,
-            nq,
+            Int32(nf),
+            Int32(nq),
             grid_dim=(nq + 255) // 256,
             block_dim=256,
         )
@@ -481,79 +472,82 @@ def box_distance2(px: Float64, py: Float64, pz: Float64, boxes: FPtr, node: Int)
 def aabb_squared_distance(
     p: FPtr, v: FPtr, f: IPtr, boxes: FPtr, nodes: IPtr, order: IPtr,
     sqrd: FPtr, indices: IPtr, closest: FPtr, stack: IPtr,
-    np: Int, nnodes: Int, stack_size: Int, workers: Int,
+    np: Int, nnodes: Int, q0: Int, q1: Int,
 ):
-    @parameter
-    @__copy_capture(p, v, f, boxes, nodes, order, sqrd, indices, closest, stack, np, nnodes, stack_size, workers)
-    def process(worker: Int):
-        var local_stack = stack + worker * stack_size
-        var q0 = worker * np // workers
-        var q1 = (worker + 1) * np // workers
-        for qi in range(q0, q1):
-            var px = p[qi * 3]
-            var py = p[qi * 3 + 1]
-            var pz = p[qi * 3 + 2]
-            var best = 1.0e300
-            var best_i = Int64(-1)
-            var best_x = 0.0
-            var best_y = 0.0
-            var best_z = 0.0
-            var sp = 1
-            local_stack[0] = 0
-            while sp > 0:
-                sp -= 1
-                var node = Int(local_stack[sp])
-                if node < 0 or node >= nnodes or box_distance2(px, py, pz, boxes, node) > best:
-                    continue
-                var left = Int(nodes[node * 4])
-                var right = Int(nodes[node * 4 + 1])
-                var start = Int(nodes[node * 4 + 2])
-                var count = Int(nodes[node * 4 + 3])
-                if count > 0:
-                    for k in range(count):
-                        var fi = Int(order[start + k])
-                        var ia = Int(f[fi * 3])
-                        var ib = Int(f[fi * 3 + 1])
-                        var ic = Int(f[fi * 3 + 2])
-                        var hit = closest_on_triangle(
-                            px, py, pz,
-                            v[ia * 3], v[ia * 3 + 1], v[ia * 3 + 2],
-                            v[ib * 3], v[ib * 3 + 1], v[ib * 3 + 2],
-                            v[ic * 3], v[ic * 3 + 1], v[ic * 3 + 2],
-                        )
-                        if hit.distance2 < best:
-                            best = hit.distance2
-                            best_i = Int64(fi)
-                            best_x = hit.x
-                            best_y = hit.y
-                            best_z = hit.z
-                else:
-                    var dl = box_distance2(px, py, pz, boxes, left)
-                    var dr = box_distance2(px, py, pz, boxes, right)
-                    if dl < dr:
-                        if dr <= best:
-                            local_stack[sp] = Int64(right)
-                            sp += 1
-                        if dl <= best:
-                            local_stack[sp] = Int64(left)
-                            sp += 1
-                    else:
-                        if dl <= best:
-                            local_stack[sp] = Int64(left)
-                            sp += 1
-                        if dr <= best:
-                            local_stack[sp] = Int64(right)
-                            sp += 1
-            sqrd[qi] = best
-            indices[qi] = best_i
-            closest[qi * 3] = best_x
-            closest[qi * 3 + 1] = best_y
-            closest[qi * 3 + 2] = best_z
+    # Descending a bounding-volume hierarchy is pointer chasing through the
+    # node, box, and index arrays: a dozen bytes touched per handful of flops,
+    # far below two flops per byte. The query range is walked on one core.
+    for qi in range(q0, q1):
+        aabb_query(
+            p, v, f, boxes, nodes, order, sqrd, indices, closest, stack,
+            np, nnodes, qi,
+        )
 
-    if workers > 1:
-        parallelize[process](workers, workers)
-    else:
-        process(0)
+
+def aabb_query(
+    p: FPtr, v: FPtr, f: IPtr, boxes: FPtr, nodes: IPtr, order: IPtr,
+    sqrd: FPtr, indices: IPtr, closest: FPtr, stack: IPtr,
+    np: Int, nnodes: Int, qi: Int,
+):
+    var px = p[qi * 3]
+    var py = p[qi * 3 + 1]
+    var pz = p[qi * 3 + 2]
+    var best = 1.0e300
+    var best_i = Int64(-1)
+    var best_x = 0.0
+    var best_y = 0.0
+    var best_z = 0.0
+    var sp = 1
+    stack[0] = 0
+    while sp > 0:
+        sp -= 1
+        var node = Int(stack[sp])
+        if node < 0 or node >= nnodes or box_distance2(px, py, pz, boxes, node) > best:
+            continue
+        var left = Int(nodes[node * 4])
+        var right = Int(nodes[node * 4 + 1])
+        var start = Int(nodes[node * 4 + 2])
+        var count = Int(nodes[node * 4 + 3])
+        if count > 0:
+            for k in range(count):
+                var fi = Int(order[start + k])
+                var ia = Int(f[fi * 3])
+                var ib = Int(f[fi * 3 + 1])
+                var ic = Int(f[fi * 3 + 2])
+                var hit = closest_on_triangle(
+                    px, py, pz,
+                    v[ia * 3], v[ia * 3 + 1], v[ia * 3 + 2],
+                    v[ib * 3], v[ib * 3 + 1], v[ib * 3 + 2],
+                    v[ic * 3], v[ic * 3 + 1], v[ic * 3 + 2],
+                )
+                if hit.distance2 < best:
+                    best = hit.distance2
+                    best_i = Int64(fi)
+                    best_x = hit.x
+                    best_y = hit.y
+                    best_z = hit.z
+        else:
+            var dl = box_distance2(px, py, pz, boxes, left)
+            var dr = box_distance2(px, py, pz, boxes, right)
+            if dl < dr:
+                if dr <= best:
+                    stack[sp] = Int64(right)
+                    sp += 1
+                if dl <= best:
+                    stack[sp] = Int64(left)
+                    sp += 1
+            else:
+                if dl <= best:
+                    stack[sp] = Int64(left)
+                    sp += 1
+                if dr <= best:
+                    stack[sp] = Int64(right)
+                    sp += 1
+    sqrd[qi] = best
+    indices[qi] = best_i
+    closest[qi * 3] = best_x
+    closest[qi * 3 + 1] = best_y
+    closest[qi * 3 + 2] = best_z
 
 
 def heat_precompute(v: FPtr, f: IPtr, geometry: FPtr, nf: Int):
@@ -732,167 +726,162 @@ def arap_rhs_rims(
                 rhs[q * dim + a] -= w * value
 
 
-def arap_rotations(cov: FPtr, rotations: FPtr, nv: Int, dim: Int, workers: Int):
-    @parameter
-    @__copy_capture(cov, rotations, nv, dim, workers)
-    def process(worker: Int):
-        var begin = worker * nv // workers
-        var end = (worker + 1) * nv // workers
-        for i in range(begin, end):
-            var h = cov + i * 9
-            var r = rotations + i * 9
-            zero_f64(r, 9)
-            if dim == 2:
-                var cosine = h[0] + h[4]
-                var sine = h[1] - h[3]
-                var length = sqrt(cosine * cosine + sine * sine)
-                if length <= 1.0e-30:
-                    r[0] = 1.0
-                    r[4] = 1.0
-                else:
-                    cosine /= length
-                    sine /= length
-                    r[0] = cosine
-                    r[1] = -sine
-                    r[3] = sine
-                    r[4] = cosine
-                continue
+def arap_rotations(cov: FPtr, rotations: FPtr, nv: Int, dim: Int, begin: Int, end: Int):
+    # Each vertex runs a cyclic Jacobi eigendecomposition of a 3x3 covariance:
+    # 24 rotation steps, each with a division and two square roots, plus the
+    # final polar decomposition. That is hundreds of flops and dozens of
+    # special-function evaluations for 144 bytes touched, so the shim splits
+    # the vertex range across a thread pool.
+    for i in range(begin, end):
+        var h = cov + i * 9
+        var r = rotations + i * 9
+        zero_f64(r, 9)
+        if dim == 2:
+            var cosine = h[0] + h[4]
+            var sine = h[1] - h[3]
+            var length = sqrt(cosine * cosine + sine * sine)
+            if length <= 1.0e-30:
+                r[0] = 1.0
+                r[4] = 1.0
+            else:
+                cosine /= length
+                sine /= length
+                r[0] = cosine
+                r[1] = -sine
+                r[3] = sine
+                r[4] = cosine
+            continue
 
-            var h00 = h[0]
-            var h01 = h[1]
-            var h02 = h[2]
-            var h10 = h[3]
-            var h11 = h[4]
-            var h12 = h[5]
-            var h20 = h[6]
-            var h21 = h[7]
-            var h22 = h[8]
-            h[0] = h00 * h00 + h10 * h10 + h20 * h20
-            h[1] = h00 * h01 + h10 * h11 + h20 * h21
-            h[2] = h00 * h02 + h10 * h12 + h20 * h22
-            h[3] = h[1]
-            h[4] = h01 * h01 + h11 * h11 + h21 * h21
-            h[5] = h01 * h02 + h11 * h12 + h21 * h22
-            h[6] = h[2]
-            h[7] = h[5]
-            h[8] = h02 * h02 + h12 * h12 + h22 * h22
-            r[0] = 1.0
-            r[4] = 1.0
-            r[8] = 1.0
-            for _ in range(8):
-                for pair in range(3):
-                    var p = 0 if pair < 2 else 1
-                    var q = 1 if pair == 0 else 2
-                    var apq = h[p * 3 + q]
-                    if abs(apq) <= 1.0e-30:
+        var h00 = h[0]
+        var h01 = h[1]
+        var h02 = h[2]
+        var h10 = h[3]
+        var h11 = h[4]
+        var h12 = h[5]
+        var h20 = h[6]
+        var h21 = h[7]
+        var h22 = h[8]
+        h[0] = h00 * h00 + h10 * h10 + h20 * h20
+        h[1] = h00 * h01 + h10 * h11 + h20 * h21
+        h[2] = h00 * h02 + h10 * h12 + h20 * h22
+        h[3] = h[1]
+        h[4] = h01 * h01 + h11 * h11 + h21 * h21
+        h[5] = h01 * h02 + h11 * h12 + h21 * h22
+        h[6] = h[2]
+        h[7] = h[5]
+        h[8] = h02 * h02 + h12 * h12 + h22 * h22
+        r[0] = 1.0
+        r[4] = 1.0
+        r[8] = 1.0
+        for _ in range(8):
+            for pair in range(3):
+                var p = 0 if pair < 2 else 1
+                var q = 1 if pair == 0 else 2
+                var apq = h[p * 3 + q]
+                if abs(apq) <= 1.0e-30:
+                    continue
+                var app = h[p * 3 + p]
+                var aqq = h[q * 3 + q]
+                var tau = (aqq - app) / (2.0 * apq)
+                var tangent = (
+                    1.0 / (tau + sqrt(1.0 + tau * tau))
+                    if tau >= 0.0
+                    else -1.0 / (-tau + sqrt(1.0 + tau * tau))
+                )
+                var cosine = 1.0 / sqrt(1.0 + tangent * tangent)
+                var sine = tangent * cosine
+                for k in range(3):
+                    if k == p or k == q:
                         continue
-                    var app = h[p * 3 + p]
-                    var aqq = h[q * 3 + q]
-                    var tau = (aqq - app) / (2.0 * apq)
-                    var tangent = (
-                        1.0 / (tau + sqrt(1.0 + tau * tau))
-                        if tau >= 0.0
-                        else -1.0 / (-tau + sqrt(1.0 + tau * tau))
-                    )
-                    var cosine = 1.0 / sqrt(1.0 + tangent * tangent)
-                    var sine = tangent * cosine
-                    for k in range(3):
-                        if k == p or k == q:
-                            continue
-                        var akp = h[k * 3 + p]
-                        var akq = h[k * 3 + q]
-                        var new_kp = cosine * akp - sine * akq
-                        var new_kq = sine * akp + cosine * akq
-                        h[k * 3 + p] = new_kp
-                        h[p * 3 + k] = new_kp
-                        h[k * 3 + q] = new_kq
-                        h[q * 3 + k] = new_kq
-                    h[p * 3 + p] = (
-                        cosine * cosine * app
-                        - 2.0 * sine * cosine * apq
-                        + sine * sine * aqq
-                    )
-                    h[q * 3 + q] = (
-                        sine * sine * app
-                        + 2.0 * sine * cosine * apq
-                        + cosine * cosine * aqq
-                    )
-                    h[p * 3 + q] = 0.0
-                    h[q * 3 + p] = 0.0
-                    for k in range(3):
-                        var vkp = r[k * 3 + p]
-                        var vkq = r[k * 3 + q]
-                        r[k * 3 + p] = cosine * vkp - sine * vkq
-                        r[k * 3 + q] = sine * vkp + cosine * vkq
+                    var akp = h[k * 3 + p]
+                    var akq = h[k * 3 + q]
+                    var new_kp = cosine * akp - sine * akq
+                    var new_kq = sine * akp + cosine * akq
+                    h[k * 3 + p] = new_kp
+                    h[p * 3 + k] = new_kp
+                    h[k * 3 + q] = new_kq
+                    h[q * 3 + k] = new_kq
+                h[p * 3 + p] = (
+                    cosine * cosine * app
+                    - 2.0 * sine * cosine * apq
+                    + sine * sine * aqq
+                )
+                h[q * 3 + q] = (
+                    sine * sine * app
+                    + 2.0 * sine * cosine * apq
+                    + cosine * cosine * aqq
+                )
+                h[p * 3 + q] = 0.0
+                h[q * 3 + p] = 0.0
+                for k in range(3):
+                    var vkp = r[k * 3 + p]
+                    var vkq = r[k * 3 + q]
+                    r[k * 3 + p] = cosine * vkp - sine * vkq
+                    r[k * 3 + q] = sine * vkp + cosine * vkq
 
-            var d0 = 0
-            var d1 = 1
-            var d2 = 2
-            if h[d1 * 3 + d1] > h[d0 * 3 + d0]:
-                d0 = 1
-                d1 = 0
-            if h[d2 * 3 + d2] > h[d0 * 3 + d0]:
-                var old_d0 = d0
-                d0 = d2
-                d2 = old_d0
-            if h[d2 * 3 + d2] > h[d1 * 3 + d1]:
-                var old_d1 = d1
-                d1 = d2
-                d2 = old_d1
+        var d0 = 0
+        var d1 = 1
+        var d2 = 2
+        if h[d1 * 3 + d1] > h[d0 * 3 + d0]:
+            d0 = 1
+            d1 = 0
+        if h[d2 * 3 + d2] > h[d0 * 3 + d0]:
+            var old_d0 = d0
+            d0 = d2
+            d2 = old_d0
+        if h[d2 * 3 + d2] > h[d1 * 3 + d1]:
+            var old_d1 = d1
+            d1 = d2
+            d2 = old_d1
 
-            var s0 = sqrt(max(0.0, h[d0 * 3 + d0]))
-            var s1 = sqrt(max(0.0, h[d1 * 3 + d1]))
-            var s2 = sqrt(max(0.0, h[d2 * 3 + d2]))
-            var u00 = (h00 * r[d0] + h01 * r[3 + d0] + h02 * r[6 + d0]) / s0
-            var u10 = (h10 * r[d0] + h11 * r[3 + d0] + h12 * r[6 + d0]) / s0
-            var u20 = (h20 * r[d0] + h21 * r[3 + d0] + h22 * r[6 + d0]) / s0
-            var u01 = (h00 * r[d1] + h01 * r[3 + d1] + h02 * r[6 + d1]) / s1
-            var u11 = (h10 * r[d1] + h11 * r[3 + d1] + h12 * r[6 + d1]) / s1
-            var u21 = (h20 * r[d1] + h21 * r[3 + d1] + h22 * r[6 + d1]) / s1
-            var u02 = u10 * u21 - u20 * u11
-            var u12 = u20 * u01 - u00 * u21
-            var u22 = u00 * u11 - u10 * u01
-            if s2 > 1.0e-15 * max(s0, 1.0):
-                u02 = (h00 * r[d2] + h01 * r[3 + d2] + h02 * r[6 + d2]) / s2
-                u12 = (h10 * r[d2] + h11 * r[3 + d2] + h12 * r[6 + d2]) / s2
-                u22 = (h20 * r[d2] + h21 * r[3 + d2] + h22 * r[6 + d2]) / s2
-            var det_u = (
-                u00 * (u11 * u22 - u12 * u21)
-                - u01 * (u10 * u22 - u12 * u20)
-                + u02 * (u10 * u21 - u11 * u20)
-            )
-            var det_v = (
-                r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
-                - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
-                + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
-            )
-            if det_u * det_v < 0.0:
-                r[d2] = -r[d2]
-                r[3 + d2] = -r[3 + d2]
-                r[6 + d2] = -r[6 + d2]
-            var v00 = r[d0]
-            var v10 = r[3 + d0]
-            var v20 = r[6 + d0]
-            var v01 = r[d1]
-            var v11 = r[3 + d1]
-            var v21 = r[6 + d1]
-            var v02 = r[d2]
-            var v12 = r[3 + d2]
-            var v22 = r[6 + d2]
-            r[0] = v00 * u00 + v01 * u01 + v02 * u02
-            r[1] = v00 * u10 + v01 * u11 + v02 * u12
-            r[2] = v00 * u20 + v01 * u21 + v02 * u22
-            r[3] = v10 * u00 + v11 * u01 + v12 * u02
-            r[4] = v10 * u10 + v11 * u11 + v12 * u12
-            r[5] = v10 * u20 + v11 * u21 + v12 * u22
-            r[6] = v20 * u00 + v21 * u01 + v22 * u02
-            r[7] = v20 * u10 + v21 * u11 + v22 * u12
-            r[8] = v20 * u20 + v21 * u21 + v22 * u22
-
-    if workers > 1:
-        parallelize[process](workers, workers)
-    else:
-        process(0)
+        var s0 = sqrt(max(0.0, h[d0 * 3 + d0]))
+        var s1 = sqrt(max(0.0, h[d1 * 3 + d1]))
+        var s2 = sqrt(max(0.0, h[d2 * 3 + d2]))
+        var u00 = (h00 * r[d0] + h01 * r[3 + d0] + h02 * r[6 + d0]) / s0
+        var u10 = (h10 * r[d0] + h11 * r[3 + d0] + h12 * r[6 + d0]) / s0
+        var u20 = (h20 * r[d0] + h21 * r[3 + d0] + h22 * r[6 + d0]) / s0
+        var u01 = (h00 * r[d1] + h01 * r[3 + d1] + h02 * r[6 + d1]) / s1
+        var u11 = (h10 * r[d1] + h11 * r[3 + d1] + h12 * r[6 + d1]) / s1
+        var u21 = (h20 * r[d1] + h21 * r[3 + d1] + h22 * r[6 + d1]) / s1
+        var u02 = u10 * u21 - u20 * u11
+        var u12 = u20 * u01 - u00 * u21
+        var u22 = u00 * u11 - u10 * u01
+        if s2 > 1.0e-15 * max(s0, 1.0):
+            u02 = (h00 * r[d2] + h01 * r[3 + d2] + h02 * r[6 + d2]) / s2
+            u12 = (h10 * r[d2] + h11 * r[3 + d2] + h12 * r[6 + d2]) / s2
+            u22 = (h20 * r[d2] + h21 * r[3 + d2] + h22 * r[6 + d2]) / s2
+        var det_u = (
+            u00 * (u11 * u22 - u12 * u21)
+            - u01 * (u10 * u22 - u12 * u20)
+            + u02 * (u10 * u21 - u11 * u20)
+        )
+        var det_v = (
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+        )
+        if det_u * det_v < 0.0:
+            r[d2] = -r[d2]
+            r[3 + d2] = -r[3 + d2]
+            r[6 + d2] = -r[6 + d2]
+        var v00 = r[d0]
+        var v10 = r[3 + d0]
+        var v20 = r[6 + d0]
+        var v01 = r[d1]
+        var v11 = r[3 + d1]
+        var v21 = r[6 + d1]
+        var v02 = r[d2]
+        var v12 = r[3 + d2]
+        var v22 = r[6 + d2]
+        r[0] = v00 * u00 + v01 * u01 + v02 * u02
+        r[1] = v00 * u10 + v01 * u11 + v02 * u12
+        r[2] = v00 * u20 + v01 * u21 + v02 * u22
+        r[3] = v10 * u00 + v11 * u01 + v12 * u02
+        r[4] = v10 * u10 + v11 * u11 + v12 * u12
+        r[5] = v10 * u20 + v11 * u21 + v12 * u22
+        r[6] = v20 * u00 + v21 * u01 + v22 * u02
+        r[7] = v20 * u10 + v21 * u11 + v22 * u12
+        r[8] = v20 * u20 + v21 * u21 + v22 * u22
 
 
 @export("mli_cot_entries")
@@ -911,8 +900,10 @@ def mli_vertex_normals(v: Int, f: Int, dst: Int, nv: Int, nf: Int, weighting: In
 
 
 @export("mli_winding")
-def mli_winding(tri: Int, q: Int, dst: Int, nf: Int, nq: Int, workers: Int) abi("C"):
-    winding(fp(tri), fp(q), fp(dst), nf, nq, workers)
+def mli_winding(
+    tri: Int, q: Int, dst: Int, nf: Int, nq: Int, q0: Int, q1: Int
+) abi("C"):
+    winding(fp(tri), fp(q), fp(dst), nf, nq, q0, q1)
 
 
 @export("mli_winding_gpu")
@@ -924,11 +915,11 @@ def mli_winding_gpu(tri: Int, q: Int, dst: Int, nf: Int, nq: Int) abi("C") -> In
 def mli_aabb_squared_distance(
     p: Int, v: Int, f: Int, boxes: Int, nodes: Int, order: Int,
     sqrd: Int, indices: Int, closest: Int, stack: Int, np: Int, nnodes: Int,
-    stack_size: Int, workers: Int,
+    q0: Int, q1: Int,
 ) abi("C"):
     aabb_squared_distance(
         fp(p), fp(v), ip(f), fp(boxes), ip(nodes), ip(order),
-        fp(sqrd), ip(indices), fp(closest), ip(stack), np, nnodes, stack_size, workers,
+        fp(sqrd), ip(indices), fp(closest), ip(stack), np, nnodes, q0, q1,
     )
 
 
@@ -975,6 +966,6 @@ def mli_arap_rhs_rims(
 
 @export("mli_arap_rotations")
 def mli_arap_rotations(
-    cov: Int, rotations: Int, nv: Int, dim: Int, workers: Int,
+    cov: Int, rotations: Int, nv: Int, dim: Int, begin: Int, end: Int,
 ) abi("C"):
-    arap_rotations(fp(cov), fp(rotations), nv, dim, workers)
+    arap_rotations(fp(cov), fp(rotations), nv, dim, begin, end)
