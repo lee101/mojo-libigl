@@ -207,15 +207,15 @@ def winding_one(tri: FPtr, ox: Float64, oy: Float64, oz: Float64, nf: Int) -> Fl
     var totals = SIMD[DType.float64, W](0.0)
     var fi = 0
     while fi + W <= nf:
-        var ax = tri.load[width=W](fi) - ox
-        var ay = tri.load[width=W](nf + fi) - oy
-        var az = tri.load[width=W](2 * nf + fi) - oz
-        var bx = tri.load[width=W](3 * nf + fi) - ox
-        var by = tri.load[width=W](4 * nf + fi) - oy
-        var bz = tri.load[width=W](5 * nf + fi) - oz
-        var cx = tri.load[width=W](6 * nf + fi) - ox
-        var cy = tri.load[width=W](7 * nf + fi) - oy
-        var cz = tri.load[width=W](8 * nf + fi) - oz
+        var ax = tri.unsafe_load[width=W](fi) - ox
+        var ay = tri.unsafe_load[width=W](nf + fi) - oy
+        var az = tri.unsafe_load[width=W](2 * nf + fi) - oz
+        var bx = tri.unsafe_load[width=W](3 * nf + fi) - ox
+        var by = tri.unsafe_load[width=W](4 * nf + fi) - oy
+        var bz = tri.unsafe_load[width=W](5 * nf + fi) - oz
+        var cx = tri.unsafe_load[width=W](6 * nf + fi) - ox
+        var cy = tri.unsafe_load[width=W](7 * nf + fi) - oy
+        var cz = tri.unsafe_load[width=W](8 * nf + fi) - oz
         var la = sqrt(ax * ax + ay * ay + az * az)
         var lb = sqrt(bx * bx + by * by + bz * bz)
         var lc = sqrt(cx * cx + cy * cy + cz * cz)
