@@ -1,0 +1,1 @@
+✨ Pixi task (bench): flock /tmp/mojo-bench.lock python bench/bench.py
