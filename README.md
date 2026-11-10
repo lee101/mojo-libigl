@@ -114,6 +114,34 @@ Heat and ARAP cache their sparse factorizations between solves.
 Run the benchmark only through `pixi run bench`; the Pixi task holds a
 machine-wide lock to avoid overlap with other repository benchmarks.
 
+## Parallelism
+
+Three kernels split their independent output index across threads: winding
+number over query rows, AABB squared distance over query points, and ARAP
+rotation fitting over vertices. The pool is the Python shim's
+`ThreadPoolExecutor`; each span calls a Mojo kernel that writes only its own
+rows, and the GIL is released for the call. AABB queries need one traversal
+stack per span, so each span gets its own.
+
+Dispatch is by `PARALLEL_MIN_WORK` in `python/igl/_lib.py`, a measured work
+threshold per kernel with a margin on top. Everything below it stays serial:
+a span costs a thread hand-off of tens to hundreds of microseconds, which is
+larger than the whole serial call at small sizes. The worker count is capped at
+`MAX_WORKERS = 4`. The host here is 72 logical cores, 36 physical, shared with
+other work (load average 18-26 while these numbers were taken), so four workers
+is where the curves were judged to flatten; eight still helps the
+transcendental kernels and is reported below rather than used.
+
+Crossover and gain, from `bench/par_sweep.py` (best of three; each
+configuration in a fresh process; every worker count checked bitwise equal to
+the serial span).
+
+| kernel | work unit | crossover | threshold | 4 workers |
+| --- | --- | ---: | ---: | ---: |
+| winding | query-face pairs | SWEEP_WINDING_CROSSOVER | 0.12M | SWEEP_WINDING_GAIN |
+| AABB | query-face pairs, growing as log(faces) | SWEEP_AABB_CROSSOVER | 4.0M | SWEEP_AABB_GAIN |
+| ARAP rotations | vertices | SWEEP_ARAP_CROSSOVER | 20k | SWEEP_ARAP_GAIN |
+
 ## How it works
 
 All Mojo code is in one compilation unit, `src/capi.mojo`, and is compiled with

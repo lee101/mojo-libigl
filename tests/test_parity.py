@@ -6,6 +6,8 @@ import pytest
 from conftest import mojo_igl as igl
 from conftest import upstream_igl as ref
 
+from igl._lib import PARALLEL_MIN_WORK
+
 
 def grid(n=7, curved=True):
     V = np.array(
@@ -258,6 +260,55 @@ def test_input_contracts():
         igl.heat_geodesics_precompute(V, F, np.nan, igl.HeatGeodesicsData())
 
 
+def test_kernel_signatures_match_shim():
+    """Every declared signature must accept exactly the arguments callers pass.
+
+    A short signature leaves the missing formal parameters reading whatever is
+    in the argument slots, which silently produced uninitialised output before.
+    """
+    from igl import _lib
+
+    # Arguments each caller passes after its last buffer address.
+    trailing = {
+        "mli_cot_entries": ["nf", "dim"],
+        "mli_mass_contributions": ["nf", "dim", "kind"],
+        "mli_vertex_normals": ["nv", "nf", "weighting"],
+        "mli_winding": ["nf", "nq", "q0", "q1"],
+        "mli_winding_gpu": ["nf", "nq"],
+        "mli_aabb_squared_distance": ["np", "nnodes", "q0", "q1"],
+        "mli_heat_vector_divergence": ["nv", "nf"],
+        "mli_heat_precompute": ["nf"],
+        "mli_arap_covariance": ["nv", "dim"],
+        "mli_arap_rhs": ["nv", "dim"],
+        "mli_arap_covariance_rims": ["nv", "nf", "dim"],
+        "mli_arap_rhs_rims": ["nv", "nf", "dim"],
+        "mli_arap_rotations": ["nv", "dim", "begin", "end"],
+    }
+    buffers = {
+        "mli_cot_entries": 3,
+        "mli_mass_contributions": 3,
+        "mli_vertex_normals": 3,
+        "mli_winding": 3,
+        "mli_winding_gpu": 3,
+        "mli_aabb_squared_distance": 10,
+        "mli_heat_vector_divergence": 4,
+        "mli_heat_precompute": 3,
+        "mli_arap_covariance": 6,
+        "mli_arap_rhs": 6,
+        "mli_arap_covariance_rims": 5,
+        "mli_arap_rhs_rims": 5,
+        "mli_arap_rotations": 2,
+    }
+    assert set(trailing) == set(buffers) == set(_lib._SIGNATURES)
+    for name, scalars in trailing.items():
+        expected = buffers[name] + len(scalars)
+        declared = len(_lib._SIGNATURES[name][0])
+        assert declared == expected, (
+            f"{name}: _SIGNATURES declares {declared} arguments, callers pass "
+            f"{buffers[name]} buffers + {len(scalars)} scalars = {expected}"
+        )
+
+
 def test_aabb_rejects_mesh_different_from_precomputation():
     V, F = grid(3)
     tree = igl.AABB()
@@ -268,6 +319,46 @@ def test_aabb_rejects_mesh_different_from_precomputation():
         tree.squared_distance(changed, F, V[:1])
 
 
+def test_arap_rotations_leaves_its_covariance_untouched():
+    """The Jacobi fit decomposes in place, so the public path must pass a copy.
+
+    Calling the kernel twice on one covariance buffer fitted a rotation for an
+    already-decomposed matrix the second time (identity instead of the real
+    rotation). ``arap_solve`` therefore hands it a private copy.
+    """
+    from igl._lib import addr, fan_out, lib
+
+    rng = np.random.default_rng(3)
+    cov = np.ascontiguousarray(
+        np.stack([np.eye(3) + rng.normal(scale=0.1, size=(3, 3)) for _ in range(4)])
+        .reshape(4, 9)
+    )
+    original = cov.copy()
+    buffers = []
+
+    def rotate(covariance):
+        rotations = np.empty((4, 9))
+        fan_out(
+            lambda lo, hi, span=0: lib().mli_arap_rotations(
+                addr(covariance), addr(rotations), 4, 3, lo, hi
+            ),
+            (),
+            4,
+            1,
+        )
+        return rotations
+
+    # The public sequence: same covariance, private copy each time.
+    for _ in range(2):
+        buffers.append(rotate(np.array(cov, order="C", copy=True)))
+    assert np.array_equal(buffers[0], buffers[1])
+    assert np.array_equal(cov, original)
+
+    # And the raw kernel is what needs the copy: it does rewrite its input.
+    rotate(cov)
+    assert not np.array_equal(cov, original)
+
+
 def test_arap_all_vertices_constrained():
     V, F = grid(2, curved=False)
     data = igl.ARAPData()
@@ -275,3 +366,68 @@ def test_arap_all_vertices_constrained():
     igl.arap_precomputation(V, F, 3, fixed, data)
     target = V + [0.25, -0.5, 1.0]
     assert np.array_equal(igl.arap_solve(target, data, V), target)
+
+
+def _force_serial(monkeypatch):
+    monkeypatch.setattr(
+        igl,
+        "worker_count",
+        lambda items, work, kernel: 1,
+    )
+
+
+def _force_parallel(monkeypatch, workers):
+    monkeypatch.setattr(
+        igl,
+        "worker_count",
+        lambda items, work, kernel: max(1, min(items, workers)),
+    )
+
+
+def test_winding_serial_and_parallel_output_is_identical(monkeypatch):
+    V, F = grid(20)
+    rng = np.random.default_rng(77)
+    # Above the winding threshold (1225 faces x 512 queries = 0.63M pairs).
+    Q = rng.uniform([0.0, 0.0, -2.0], [19.0, 19.0, 2.0], size=(512, 3))
+    _force_serial(monkeypatch)
+    serial = igl.winding_number(V, F, Q)
+    for workers in (1, 2, 4, 8):
+        _force_parallel(monkeypatch, workers)
+        assert np.array_equal(igl.winding_number(V, F, Q), serial)
+
+
+def test_aabb_serial_and_parallel_output_is_identical(monkeypatch):
+    V, F = grid(60)
+    rng = np.random.default_rng(78)
+    # Above the AABB threshold (6962 faces x 2048 queries x depth).
+    P = rng.uniform([-5.0, -5.0, -5.0], [65.0, 65.0, 5.0], size=(2048, 3))
+    tree = igl.AABB()
+    tree.init(V, F)
+    _force_serial(monkeypatch)
+    serial = tree.squared_distance(V, F, P)
+    for workers in (1, 2, 4, 8):
+        _force_parallel(monkeypatch, workers)
+        parallel = tree.squared_distance(V, F, P)
+        # Distance, face index, and closest point must all match exactly.
+        for actual, expected in zip(parallel, serial):
+            assert np.array_equal(actual, expected)
+    assert set(parallel[0]) != {np.inf}
+
+
+def test_arap_serial_and_parallel_rotations_are_identical(monkeypatch):
+    # 150 x 150 clears the rotation threshold (22.5k vertices > 20k).
+    V, F = grid(150, curved=False)
+    rng = np.random.default_rng(79)
+    target = V + rng.normal(scale=0.2, size=V.shape)
+    b = np.array([0, 149, 22350, 22499], dtype=np.int32)
+    bc = target[b].copy()
+    actual_data = igl.ARAPData()
+    actual_data.max_iter = 2
+    igl.arap_precomputation(V, F, 3, b, actual_data)
+    assert actual_data.n > PARALLEL_MIN_WORK["arap_rotations"]
+    _force_serial(monkeypatch)
+    serial = igl.arap_solve(bc, actual_data, V)
+    for workers in (1, 2, 4, 8):
+        _force_parallel(monkeypatch, workers)
+        assert np.array_equal(igl.arap_solve(bc, actual_data, V), serial)
+

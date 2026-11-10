@@ -31,14 +31,28 @@ _SIGNATURES = {
     "mli_arap_rotations": ([I] * 6, None),
 }
 
-# Eight workers is where the measured speedup curve for the transcendental and
-# eigendecomposition kernels flattens on this box.
-MAX_WORKERS = 8
+# The host is shared. Four workers is where the measured curves flatten: going
+# to eight still helps the long transcendental kernels, but four already keeps
+# 3-4x and leaves cores for everyone else.
+MAX_WORKERS = 4
+
+# Minimum work per kernel before splitting. Each value is the measured
+# crossover with a margin on top; below it the serial call is faster because a
+# span costs a thread hand-off (tens to hundreds of microseconds, larger on a
+# loaded host). See the "Parallelism" section of the README for the raw data.
+PARALLEL_MIN_WORK = {
+    # query-face pairs: crossover ~0.08M, plus 50% margin.
+    "winding": 120_000,
+    # face-query pairs, growing as log(faces): crossover ~2.7M at 10k queries.
+    "aabb": 4_000_000,
+    # vertices: crossover ~15k, plus 33% margin.
+    "arap_rotations": 20_000,
+}
 
 
-def worker_count(items: int, work: int) -> int:
+def worker_count(items: int, work: int, kernel: str) -> int:
     """Return the span count for a kernel with ``items`` independent outputs."""
-    if items < 2 or work < 1 << 17:
+    if items < 2 or work < PARALLEL_MIN_WORK[kernel]:
         return 1
     try:
         available = len(os.sched_getaffinity(0))
@@ -55,18 +69,30 @@ def spans(total: int, parts: int) -> list[tuple[int, int]]:
     ]
 
 
-def fan_out(function, arguments, total: int, workers: int) -> None:
-    """Call ``function(*arguments, lo, hi)`` once per contiguous span."""
+def fan_out(function, arguments, total: int, workers: int) -> int:
+    """Call ``function(*arguments, lo, hi, span=index)`` once per span.
+
+    ``span`` is the zero-based span index, which callers use for per-span
+    scratch buffers. Returns the number of spans actually used.
+    """
     if workers == 1:
-        function(*arguments, 0, total)
-        return
+        function(*arguments, 0, total, span=0)
+        return 1
     spans = [
         (lo, min(lo + -(-total // workers), total))
         for lo in range(0, total, -(-total // workers))
         if lo < total
     ]
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        list(pool.map(lambda span: function(*arguments, span[0], span[1]), spans))
+        list(
+            pool.map(
+                lambda pair: function(
+                    *arguments, pair[1][0], pair[1][1], span=pair[0]
+                ),
+                enumerate(spans),
+            )
+        )
+    return len(spans)
 
 _handle: ctypes.CDLL | None = None
 

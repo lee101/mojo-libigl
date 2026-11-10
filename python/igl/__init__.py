@@ -13,6 +13,15 @@ from scipy.sparse import linalg as splinalg
 from ._lib import addr, fan_out, lib, worker_count
 
 
+def _to_hi(function):
+    """Wrap a ``(..., lo, hi)`` C entry point, ignoring ``fan_out``'s span."""
+
+    def call(*arguments, span=0):
+        function(*arguments)
+
+    return call
+
+
 class MassMatrixType(IntEnum):
     MASSMATRIX_TYPE_BARYCENTRIC = 0
     MASSMATRIX_TYPE_VORONOI = 1
@@ -256,7 +265,7 @@ def winding_number(V, F, O, device="cpu"):
             # Every query-face pair costs three square roots and an arctangent,
             # so the sweep is transcendental bound and the query rows split.
             fan_out(
-                lib().mli_winding,
+                _to_hi(lib().mli_winding),
                 (
                     addr(triangles),
                     addr(queries),
@@ -265,7 +274,7 @@ def winding_number(V, F, O, device="cpu"):
                     len(queries),
                 ),
                 len(queries),
-                worker_count(len(queries), len(faces) * len(queries)),
+                worker_count(len(queries), len(faces) * len(queries), "winding"),
             )
     return float(result[0]) if scalar else result
 
@@ -345,11 +354,17 @@ class AABB:
                 np.zeros((len(points), 3)),
             )
         boxes, nodes, order, stack_size = self._tree
-        sqrd = np.empty(len(points), dtype=np.float64)
-        indices = np.empty(len(points), dtype=np.int64)
-        closest = np.empty((len(points), 3), dtype=np.float64)
-        stack = np.empty(stack_size, dtype=np.int64)
-        if len(points):
+        count = len(points)
+        sqrd = np.empty(count, dtype=np.float64)
+        indices = np.empty(count, dtype=np.int64)
+        closest = np.empty((count, 3), dtype=np.float64)
+        # Each query owns one traversal stack; concurrent spans index their own.
+        depth = 1 + max(stack_size.bit_length(), 1)
+        workers = worker_count(count, count * len(faces) * depth, "aabb")
+        stacks = np.empty((workers, stack_size), dtype=np.int64)
+        targets = (addr(sqrd), addr(indices), addr(closest))
+
+        def query(lo, hi, span=0):
             lib().mli_aabb_squared_distance(
                 addr(points),
                 addr(vertices),
@@ -357,15 +372,20 @@ class AABB:
                 addr(boxes),
                 addr(nodes),
                 addr(order),
-                addr(sqrd),
-                addr(indices),
-                addr(closest),
-                addr(stack),
-                len(points),
+                targets[0],
+                targets[1],
+                targets[2],
+                stacks[span].ctypes.data,
+                count,
                 len(nodes),
-                0,
-                len(points),
+                lo,
+                hi,
             )
+
+        if count:
+            workers = worker_count(count, count * len(faces) * depth, "aabb")
+            used = fan_out(query, (), count, workers)
+            assert used <= len(stacks), "each span needs its own traversal stack"
         return sqrd, indices, closest
 
     def find(self, V, Ele, q, first=False):
@@ -568,12 +588,14 @@ def arap_solve(bc, data, U):
                 data._dim,
             )
         # Each vertex runs a Jacobi eigendecomposition with dozens of square
-        # roots, so the vertex range splits.
+        # roots, so the vertex range splits. The kernel decomposes in place,
+        # so it gets a private copy instead of the covariance buffer.
+        scratch = np.array(covariance, order="C", copy=True)
         fan_out(
-            lib().mli_arap_rotations,
-            (addr(covariance), addr(rotations), data.n, data._dim),
+            _to_hi(lib().mli_arap_rotations),
+            (addr(scratch), addr(rotations), data.n, data._dim),
             data.n,
-            worker_count(data.n, data.n),
+            worker_count(data.n, data.n, "arap_rotations"),
         )
         if data._resolved_energy == int(ARAP_ENERGY_TYPE_SPOKES):
             lib().mli_arap_rhs(
