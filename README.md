@@ -96,20 +96,29 @@ the best of two. Both implementations receive the same contiguous arrays.
 
 | case | mojo-libigl | libigl 2.6.2 | relative |
 | --- | ---: | ---: | ---: |
-| `cotmatrix` (122.5k V, 243.6k F) | 115.55 ms | 146.18 ms | **1.27x faster** |
-| Voronoi `massmatrix` (243.6k F) | 11.64 ms | 84.30 ms | **7.24x faster** |
-| `per_vertex_normals`, area (243.6k F) | 9.79 ms | 22.93 ms | **2.34x faster** |
-| `winding_number`, CPU (28.3k F, 256 Q) | 36.51 ms | 143.24 ms | **3.92x faster** |
-| `winding_number`, CPU (28.3k F, 1024 Q) | 104.11 ms | 137.36 ms | **1.32x faster** |
-| `winding_number`, GPU (28.3k F, 1024 Q) | 46.60 ms | 137.36 ms | **2.95x faster** |
-| `AABB.squared_distance` (243.6k F, 10k Q) | 12.32 ms | 4.35 ms | 2.83x slower |
-| `heat_geodesics_solve` (10k V) | 5.11 ms | 2.67 ms | 1.91x slower |
-| `arap_solve`, default (3.6k V, 5 iterations) | 41.90 ms | 32.46 ms | 1.29x slower |
+| `cotmatrix` (122.5k V, 243.6k F) | 108.19 ms | 130.24 ms | **1.20x faster** |
+| Voronoi `massmatrix` (243.6k F) | 14.43 ms | 44.17 ms | **3.06x faster** |
+| `per_vertex_normals`, area (243.6k F) | 6.15 ms | 20.55 ms | **3.34x faster** |
+| `winding_number`, CPU (28.3k F, 256 Q) | 60.66 ms | 116.95 ms | **1.93x faster** |
+| `winding_number`, CPU (28.3k F, 1024 Q) | 215.09 ms | 138.86 ms | 1.55x slower |
+| `winding_number`, GPU (28.3k F, 1024 Q) | 53.47 ms | 138.86 ms | **2.60x faster** |
+| `AABB.squared_distance` (243.6k F, 10k Q) | 9.12 ms | 4.83 ms | 1.89x slower |
+| `heat_geodesics_solve` (10k V) | 5.12 ms | 2.77 ms | 1.85x slower |
+| `arap_solve`, default (3.6k V, 5 iterations) | 18.95 ms | 31.02 ms | **1.64x faster** |
 
 These are the literal results of the final `pixi run bench`; no results from
-earlier runs are mixed into the table. Winding uses a face-SoA SIMD loop with a
-scalar tail and thresholded query parallelism. AABB reuses a median-split tree.
-Heat and ARAP cache their sparse factorizations between solves.
+earlier runs are mixed into the table. This host is shared, so single runs move
+by roughly 10-15%; two independent measurements of every row, with their
+spread, are logged with the command that reproduces them in `bench/verify.md`.
+The CPU winding number wins at 256 queries because its query rows split across
+threads, but is slower than libigl when the query count is raised to 1024; the
+per-pair cost of the Mojo kernel is higher, and only the threaded 256-query
+case is ahead. `arap_solve` is faster than libigl in these measurements, not
+slower as an earlier version of this table claimed.
+
+Winding uses a face-SoA SIMD loop with a scalar tail and thresholded query
+parallelism. AABB reuses a median-split tree. Heat and ARAP cache their sparse
+factorizations between solves.
 
 Run the benchmark only through `pixi run bench`; the Pixi task holds a
 machine-wide lock to avoid overlap with other repository benchmarks.
@@ -128,19 +137,29 @@ threshold per kernel with a margin on top. Everything below it stays serial:
 a span costs a thread hand-off of tens to hundreds of microseconds, which is
 larger than the whole serial call at small sizes. The worker count is capped at
 `MAX_WORKERS = 4`. The host here is 72 logical cores, 36 physical, shared with
-other work (load average 18-26 while these numbers were taken), so four workers
-is where the curves were judged to flatten; eight still helps the
-transcendental kernels and is reported below rather than used.
+other work (load average 23-31 during the verification pass), so four workers
+is where most of the curves flatten; eight still helps AABB, and is reported
+below rather than used.
 
-Crossover and gain, from `bench/par_sweep.py` (best of three; each
-configuration in a fresh process; every worker count checked bitwise equal to
-the serial span).
+Crossover and gain, from `bench/par_sweep.py --pin 8,9,10,11` (best of six
+interleaved rounds in one process, so shared-host load hits every worker count;
+rotations checked bitwise equal across worker counts, with the caller's
+in-place-buffer caveat noted below).
 
 | kernel | work unit | crossover | threshold | 4 workers |
 | --- | --- | ---: | ---: | ---: |
-| winding | query-face pairs | SWEEP_WINDING_CROSSOVER | 0.12M | SWEEP_WINDING_GAIN |
-| AABB | query-face pairs, growing as log(faces) | SWEEP_AABB_CROSSOVER | 4.0M | SWEEP_AABB_GAIN |
-| ARAP rotations | vertices | SWEEP_ARAP_CROSSOVER | 20k | SWEEP_ARAP_GAIN |
+| winding | query-face pairs | ~0.04M | 0.12M | 3.73x (256 Q), 3.21x (1024 Q) |
+| AABB | query-face pairs, growing as log(faces) | ~0.25M | 4.0M | 2.11x (10k Q) |
+| ARAP rotations | vertices | ~5k | 20k | 1.93x (120k V) |
+
+These were measured during the verification pass on a shared host (load average
+23-31), so they are indicative, not stable timings. AABB still gains at eight
+workers (2.58x at 10k queries) and winding is flat or worse there, which is why
+the cap is four. `par_sweep.py` reports `equal_serial=False` for
+`arap_rotations`: the rotation kernel decomposes its covariance argument in
+place, so each worker count mutates the previous run's buffer. Re-running it
+with a private copy per worker gives bitwise equal rotations for 1, 2, 4 and 8
+workers, and `arap_solve` does pass the private copy the kernel requires.
 
 ## How it works
 
@@ -165,7 +184,7 @@ allocation inside Mojo.
 
 ## Verification
 
-The pytest suite contains 25 passing cases against the installed
+The pytest suite contains 30 passing cases against the installed
 `libigl` 2.6.2 package. It checks complete sparse matrices, every mass and normal
 weighting mode, exact winding invariants, closest points including degenerate
 triangles, cached AABB behavior, heat distances, and both supported ARAP

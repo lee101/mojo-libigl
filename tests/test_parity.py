@@ -201,6 +201,37 @@ def test_heat_geodesics_upstream_parity():
     assert np.allclose(actual, expected, rtol=2e-3, atol=1e-2)
 
 
+@pytest.mark.xfail(
+    strict=True,
+    reason="heat agreement breaks between 30x30 and 60x60; see bench/verify.md",
+)
+def test_heat_geodesics_parity_on_larger_grid():
+    """Agreement must not depend on mesh size.
+
+    On 8x8 and 30x30 grids the two agree to 1e-12, but from roughly 60x60 on
+    they diverge by 20-70% of the distance range while both stay finite and
+    monotone, so the smaller parity test cannot see it. Strict xfail: when the
+    divergence is fixed this turns into a pass and fails as XPASS until the
+    marker is removed, which is the reminder to do so. Beware that the small
+    default-time-step path still agrees to ~7e-3 at 60x60, so a test built on
+    that overload would pass and prove nothing.
+    """
+    V, F = grid(60)
+    actual_data = igl.HeatGeodesicsData()
+    expected_data = ref.HeatGeodesicsData()
+    igl.heat_geodesics_precompute(V, F, 1.0, actual_data)
+    ref.heat_geodesics_precompute(V, F, 1.0, expected_data)
+    sources = np.array([0], dtype=np.int64)
+    actual = igl.heat_geodesics_solve(actual_data, sources)
+    expected = ref.heat_geodesics_solve(expected_data, sources)
+    # Plain agreement to <20% suggests a fix but cannot prove one: at 60x60
+    # the two sides happen to match when every kernel is forced serial, which
+    # is two wrong fields agreeing rather than parity. So this test either
+    # fails (strict xfail, today) or, once agreement holds, still needs a
+    # human to confirm the shared field is right before removing the marker.
+    assert np.allclose(actual, expected, rtol=2e-3, atol=1e-2)
+
+
 @pytest.mark.parametrize("energy", ["spokes", "default"])
 def test_arap_upstream_parity(energy):
     V, F = grid(5, curved=False)
