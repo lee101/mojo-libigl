@@ -204,8 +204,44 @@ def vertex_normals(
 
 def winding_one(tri: FPtr, ox: Float64, oy: Float64, oz: Float64, nf: Int) -> Float64:
     comptime W = simd_width_of[DType.float64]()
+    comptime L = 4
+    # FOUR partial accumulators: one running sum serialises on floating-point
+    # add latency (the atan2 chain is long), four let the adds overlap.
     var totals = SIMD[DType.float64, W](0.0)
+    var totals1 = SIMD[DType.float64, W](0.0)
+    var totals2 = SIMD[DType.float64, W](0.0)
+    var totals3 = SIMD[DType.float64, W](0.0)
     var fi = 0
+    while fi + L * W <= nf:
+        comptime for lane in range(L):
+            var at = fi + lane * W
+            var ax = tri.unsafe_load[width=W](at) - ox
+            var ay = tri.unsafe_load[width=W](nf + at) - oy
+            var az = tri.unsafe_load[width=W](2 * nf + at) - oz
+            var bx = tri.unsafe_load[width=W](3 * nf + at) - ox
+            var by = tri.unsafe_load[width=W](4 * nf + at) - oy
+            var bz = tri.unsafe_load[width=W](5 * nf + at) - oz
+            var cx = tri.unsafe_load[width=W](6 * nf + at) - ox
+            var cy = tri.unsafe_load[width=W](7 * nf + at) - oy
+            var cz = tri.unsafe_load[width=W](8 * nf + at) - oz
+            var la = sqrt(ax * ax + ay * ay + az * az)
+            var lb = sqrt(bx * bx + by * by + bz * bz)
+            var lc = sqrt(cx * cx + cy * cy + cz * cz)
+            var det = ax * (by * cz - bz * cy) - ay * (bx * cz - bz * cx) + az * (bx * cy - by * cx)
+            var denom = la * lb * lc
+            denom += (ax * bx + ay * by + az * bz) * lc
+            denom += (bx * cx + by * cy + bz * cz) * la
+            denom += (cx * ax + cy * ay + cz * az) * lb
+            var angle = atan2(det, denom)
+            if lane == 0:
+                totals += angle
+            elif lane == 1:
+                totals1 += angle
+            elif lane == 2:
+                totals2 += angle
+            else:
+                totals3 += angle
+        fi += L * W
     while fi + W <= nf:
         var ax = tri.unsafe_load[width=W](fi) - ox
         var ay = tri.unsafe_load[width=W](nf + fi) - oy
@@ -226,7 +262,7 @@ def winding_one(tri: FPtr, ox: Float64, oy: Float64, oz: Float64, nf: Int) -> Fl
         denom += (cx * ax + cy * ay + cz * az) * lb
         totals += atan2(det, denom)
         fi += W
-    var total = totals.reduce_add()
+    var total = ((totals + totals1) + (totals2 + totals3)).reduce_add()
     while fi < nf:
         var ax = tri[fi] - ox
         var ay = tri[nf + fi] - oy

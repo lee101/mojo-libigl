@@ -60,13 +60,13 @@ def fan_out(function, arguments, total: int, workers: int) -> None:
     if workers == 1:
         function(*arguments, 0, total)
         return
+    spans = [
+        (lo, min(lo + -(-total // workers), total))
+        for lo in range(0, total, -(-total // workers))
+        if lo < total
+    ]
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        list(
-            pool.map(
-                lambda span: function(*arguments, span[0], span[1]),
-                spans(total, workers),
-            )
-        )
+        list(pool.map(lambda span: function(*arguments, span[0], span[1]), spans))
 
 _handle: ctypes.CDLL | None = None
 

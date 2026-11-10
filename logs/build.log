@@ -1,0 +1,1428 @@
+Pixi task (build): bash build/build.sh
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:12:17: warning: 'UnsafePointer' is deprecated, use 'Pointer' instead
+comptime FPtr = UnsafePointer[Float64, AnyOrigin[mut=True]]
+                ^~~~~~~~~~~~~
+                Pointer
+<unknown>:0: note: 'UnsafePointer' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:13:17: warning: 'UnsafePointer' is deprecated, use 'Pointer' instead
+comptime IPtr = UnsafePointer[Int64, AnyOrigin[mut=True]]
+                ^~~~~~~~~~~~~
+                Pointer
+<unknown>:0: note: 'UnsafePointer' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:49:12: warning: 'store' is deprecated, use 'unsafe_store' instead
+        dst.store(i, zeros)
+        ~~~^~~~~~
+            unsafe_store
+<unknown>:0: note: 'store' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:52:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[i] = 0.0
+        ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:59:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ia = Int(f[fi * 3])
+                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:60:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ib = Int(f[fi * 3 + 1])
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:61:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ic = Int(f[fi * 3 + 2])
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:62:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ax = v[ia * dim]
+             ~^~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:63:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ay = v[ia * dim + 1]
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:64:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var az = v[ia * dim + 2] if dim > 2 else 0.0
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:65:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var bx = v[ib * dim]
+             ~^~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:66:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var by = v[ib * dim + 1]
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:67:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var bz = v[ib * dim + 2] if dim > 2 else 0.0
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:68:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cx = v[ic * dim]
+             ~^~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:69:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cy = v[ic * dim + 1]
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:70:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cz = v[ic * dim + 2] if dim > 2 else 0.0
+             ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:116:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[fi * 3] = 0.5 * g.cot_a
+        ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:117:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[fi * 3 + 1] = 0.5 * g.cot_b
+        ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:118:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[fi * 3 + 2] = 0.5 * g.cot_c
+        ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:128:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3] = area / 3.0
+            ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:129:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 1] = area / 3.0
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:130:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 2] = area / 3.0
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:136:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3] = area * (0.5 if obtuse_a else 0.25)
+            ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:137:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 1] = area * (0.5 if obtuse_b else 0.25)
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:138:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 2] = area * (0.5 if obtuse_c else 0.25)
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:141:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3] = (g.ab2 * g.cot_c + g.ac2 * g.cot_b) / 8.0
+            ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:142:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 1] = (g.ab2 * g.cot_c + g.bc2 * g.cot_a) / 8.0
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:143:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[fi * 3 + 2] = (g.ac2 * g.cot_b + g.bc2 * g.cot_a) / 8.0
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:150:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[i] = 0.0
+        ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:153:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ia = Int(f[fi * 3])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:154:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ib = Int(f[fi * 3 + 1])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:155:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ic = Int(f[fi * 3 + 2])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:156:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ax = v[ia * 3]
+                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:157:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ay = v[ia * 3 + 1]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:158:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var az = v[ia * 3 + 2]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:159:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var abx = v[ib * 3] - ax
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:160:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var aby = v[ib * 3 + 1] - ay
+                  ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:161:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var abz = v[ib * 3 + 2] - az
+                  ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:162:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var acx = v[ic * 3] - ax
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:163:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var acy = v[ic * 3 + 1] - ay
+                  ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:164:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var acz = v[ic * 3 + 2] - az
+                  ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:175:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var vi = Int(f[fi * 3 + corner])
+                         ~^~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:178:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var vj = Int(f[fi * 3 + (corner + 1) % 3])
+                             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:179:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var vk = Int(f[fi * 3 + (corner + 2) % 3])
+                             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:180:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1x = v[vj * 3] - v[vi * 3]
+                          ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:180:40: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1x = v[vj * 3] - v[vi * 3]
+                                      ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:181:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1y = v[vj * 3 + 1] - v[vi * 3 + 1]
+                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:181:44: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1y = v[vj * 3 + 1] - v[vi * 3 + 1]
+                                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:182:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1z = v[vj * 3 + 2] - v[vi * 3 + 2]
+                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:182:44: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e1z = v[vj * 3 + 2] - v[vi * 3 + 2]
+                                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:183:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2x = v[vk * 3] - v[vi * 3]
+                          ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:183:40: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2x = v[vk * 3] - v[vi * 3]
+                                      ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:184:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2y = v[vk * 3 + 1] - v[vi * 3 + 1]
+                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:184:44: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2y = v[vk * 3 + 1] - v[vi * 3 + 1]
+                                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:185:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2z = v[vk * 3 + 2] - v[vi * 3 + 2]
+                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:185:44: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var e2z = v[vk * 3 + 2] - v[vi * 3 + 2]
+                                          ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:191:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[vi * 3] += ux * weight
+            ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:192:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[vi * 3 + 1] += uy * weight
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:193:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[vi * 3 + 2] += uz * weight
+            ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:195:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var x = dst[i * 3]
+                ~~~^~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:196:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var y = dst[i * 3 + 1]
+                ~~~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:197:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var z = dst[i * 3 + 2]
+                ~~~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:200:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[i * 3] = x / norm
+            ~~~^~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:201:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[i * 3 + 1] = y / norm
+            ~~~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:202:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            dst[i * 3 + 2] = z / norm
+            ~~~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:267:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ax = tri[fi] - ox
+                 ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:268:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ay = tri[nf + fi] - oy
+                 ~~~^~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:269:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var az = tri[2 * nf + fi] - oz
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:270:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var bx = tri[3 * nf + fi] - ox
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:271:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var by = tri[4 * nf + fi] - oy
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:272:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var bz = tri[5 * nf + fi] - oz
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:273:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cx = tri[6 * nf + fi] - ox
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:274:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cy = tri[7 * nf + fi] - oy
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:275:21: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cz = tri[8 * nf + fi] - oz
+                 ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:294:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[qi] = winding_one(tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf)
+        ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:294:37: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[qi] = winding_one(tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf)
+                                   ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:294:48: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[qi] = winding_one(tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf)
+                                              ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:294:63: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        dst[qi] = winding_one(tri, q[qi * 3], q[qi * 3 + 1], q[qi * 3 + 2], nf)
+                                                             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:306:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ox = q[qi * 3]
+             ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:307:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var oy = q[qi * 3 + 1]
+             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:308:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var oz = q[qi * 3 + 2]
+             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:309:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ax = tri[fi] - ox
+             ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:310:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var ay = tri[nf + fi] - oy
+             ~~~^~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:311:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var az = tri[2 * nf + fi] - oz
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:312:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var bx = tri[3 * nf + fi] - ox
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:313:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var by = tri[4 * nf + fi] - oy
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:314:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var bz = tri[5 * nf + fi] - oz
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:315:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cx = tri[6 * nf + fi] - ox
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:316:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cy = tri[7 * nf + fi] - oy
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:317:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var cz = tri[8 * nf + fi] - oz
+             ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:353:11: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    angles[pair] = angle
+    ~~~~~~^~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:362:24: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        total += angles[fi * nq + qi]
+                 ~~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:363:8: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    dst[qi] = total / (2.0 * PI)
+    ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:502:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dx = max(boxes[node * 6] - px, max(0.0, px - boxes[node * 6 + 3]))
+                 ~~~~~^~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:502:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dx = max(boxes[node * 6] - px, max(0.0, px - boxes[node * 6 + 3]))
+                                                     ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:503:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dy = max(boxes[node * 6 + 1] - py, max(0.0, py - boxes[node * 6 + 4]))
+                 ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:503:63: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dy = max(boxes[node * 6 + 1] - py, max(0.0, py - boxes[node * 6 + 4]))
+                                                         ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:504:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dz = max(boxes[node * 6 + 2] - pz, max(0.0, pz - boxes[node * 6 + 5]))
+                 ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:504:63: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var dz = max(boxes[node * 6 + 2] - pz, max(0.0, pz - boxes[node * 6 + 5]))
+                                                         ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:528:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var px = p[qi * 3]
+             ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:529:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var py = p[qi * 3 + 1]
+             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:530:15: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    var pz = p[qi * 3 + 2]
+             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:537:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    stack[0] = 0
+    ~~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:540:29: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var node = Int(stack[sp])
+                       ~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:543:29: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var left = Int(nodes[node * 4])
+                       ~~~~~^~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:544:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var right = Int(nodes[node * 4 + 1])
+                        ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:545:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var start = Int(nodes[node * 4 + 2])
+                        ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:546:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var count = Int(nodes[node * 4 + 3])
+                        ~~~~~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:549:35: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var fi = Int(order[start + k])
+                             ~~~~~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:550:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var ia = Int(f[fi * 3])
+                             ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:551:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var ib = Int(f[fi * 3 + 1])
+                             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:552:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var ic = Int(f[fi * 3 + 2])
+                             ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:555:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ia * 3], v[ia * 3 + 1], v[ia * 3 + 2],
+                    ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:555:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ia * 3], v[ia * 3 + 1], v[ia * 3 + 2],
+                               ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:555:48: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ia * 3], v[ia * 3 + 1], v[ia * 3 + 2],
+                                              ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:556:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ib * 3], v[ib * 3 + 1], v[ib * 3 + 2],
+                    ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:556:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ib * 3], v[ib * 3 + 1], v[ib * 3 + 2],
+                               ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:556:48: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ib * 3], v[ib * 3 + 1], v[ib * 3 + 2],
+                                              ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:557:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ic * 3], v[ic * 3 + 1], v[ic * 3 + 2],
+                    ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:557:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ic * 3], v[ic * 3 + 1], v[ic * 3 + 2],
+                               ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:557:48: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    v[ic * 3], v[ic * 3 + 1], v[ic * 3 + 2],
+                                              ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:570:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    stack[sp] = Int64(right)
+                    ~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:573:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    stack[sp] = Int64(left)
+                    ~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:577:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    stack[sp] = Int64(left)
+                    ~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:580:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    stack[sp] = Int64(right)
+                    ~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:582:9: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    sqrd[qi] = best
+    ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:583:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    indices[qi] = best_i
+    ~~~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:584:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    closest[qi * 3] = best_x
+    ~~~~~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:585:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    closest[qi * 3 + 1] = best_y
+    ~~~~~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:586:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+    closest[qi * 3 + 2] = best_z
+    ~~~~~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:591:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ia = Int(f[fi * 3])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:592:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ib = Int(f[fi * 3 + 1])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:593:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ic = Int(f[fi * 3 + 2])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:594:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ax = v[ia * 3]
+                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:595:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ay = v[ia * 3 + 1]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:596:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var az = v[ia * 3 + 2]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:597:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var bx = v[ib * 3]
+                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:598:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var by = v[ib * 3 + 1]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:599:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var bz = v[ib * 3 + 2]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:600:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cx = v[ic * 3]
+                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:601:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cy = v[ic * 3 + 1]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:602:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var cz = v[ic * 3 + 2]
+                 ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:614:31: warning: '__add__' is deprecated, use 'unsafe_offset' instead
+            zero_f64(geometry + fi * 10, 10)
+                     ~~~~~~~~~^~~~~~~~~
+<unknown>:0: note: '__add__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:634:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10] = gax
+        ~~~~~~~~^~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:635:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 1] = gay
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:636:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 2] = gaz
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:637:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 3] = gbx
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:638:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 4] = gby
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:639:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 5] = gbz
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:640:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 6] = gcx
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:641:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 7] = gcy
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:642:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 8] = gcz
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:643:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        geometry[fi * 10 + 9] = 0.5 * sqrt(n2)
+        ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:651:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ia = Int(f[fi * 3])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:652:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ib = Int(f[fi * 3 + 1])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:653:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ic = Int(f[fi * 3 + 2])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:654:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gax = geometry[fi * 10]
+                  ~~~~~~~~^~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:655:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gay = geometry[fi * 10 + 1]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:656:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gaz = geometry[fi * 10 + 2]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:657:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gbx = geometry[fi * 10 + 3]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:658:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gby = geometry[fi * 10 + 4]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:659:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gbz = geometry[fi * 10 + 5]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:660:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gcx = geometry[fi * 10 + 6]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:661:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gcy = geometry[fi * 10 + 7]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:662:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gcz = geometry[fi * 10 + 8]
+                  ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:663:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gx = u[ia] * gax + u[ib] * gbx + u[ic] * gcx
+                 ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:663:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gx = u[ia] * gax + u[ib] * gbx + u[ic] * gcx
+                               ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:663:47: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gx = u[ia] * gax + u[ib] * gbx + u[ic] * gcx
+                                             ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:664:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gy = u[ia] * gay + u[ib] * gby + u[ic] * gcy
+                 ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:664:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gy = u[ia] * gay + u[ib] * gby + u[ic] * gcy
+                               ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:664:47: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gy = u[ia] * gay + u[ib] * gby + u[ic] * gcy
+                                             ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:665:19: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gz = u[ia] * gaz + u[ib] * gbz + u[ic] * gcz
+                 ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:665:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gz = u[ia] * gaz + u[ib] * gbz + u[ic] * gcz
+                               ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:665:47: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var gz = u[ia] * gaz + u[ib] * gbz + u[ic] * gcz
+                                             ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:674:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var area = geometry[fi * 10 + 9]
+                   ~~~~~~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:675:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        div[ia] += area * (gax * xx + gay * xy + gaz * xz)
+        ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:676:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        div[ib] += area * (gbx * xx + gby * xy + gbz * xz)
+        ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:677:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        div[ic] += area * (gcx * xx + gcy * xy + gcz * xz)
+        ~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:686:35: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        for kk in range(Int(indptr[i]), Int(indptr[i + 1])):
+                            ~~~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:686:51: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        for kk in range(Int(indptr[i]), Int(indptr[i + 1])):
+                                            ~~~~~~^~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:687:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var j = Int(indices[kk])
+                        ~~~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:688:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var w = weights[kk]
+                    ~~~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:690:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var rv = v[i * dim + a] - v[j * dim + a]
+                         ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:690:44: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var rv = v[i * dim + a] - v[j * dim + a]
+                                          ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:692:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var du = u[i * dim + b] - u[j * dim + b]
+                             ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:692:48: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var du = u[i * dim + b] - u[j * dim + b]
+                                              ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:693:24: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    cov[i * 9 + a * 3 + b] += w * rv * du
+                    ~~~^~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:702:35: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        for kk in range(Int(indptr[i]), Int(indptr[i + 1])):
+                            ~~~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:702:51: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        for kk in range(Int(indptr[i]), Int(indptr[i + 1])):
+                                            ~~~~~~^~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:703:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var j = Int(indices[kk])
+                        ~~~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:704:34: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var w = 0.5 * weights[kk]
+                          ~~~~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:708:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var edge = v[i * dim + b] - v[j * dim + b]
+                               ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:708:50: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var edge = v[i * dim + b] - v[j * dim + b]
+                                                ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:709:40: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    value += (rotations[i * 9 + a * 3 + b] + rotations[j * 9 + a * 3 + b]) * edge
+                              ~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:709:71: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    value += (rotations[i * 9 + a * 3 + b] + rotations[j * 9 + a * 3 + b]) * edge
+                                                             ~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:710:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                rhs[i * dim + a] += w * value
+                ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:718:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ia = Int(f[fi * 3])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:719:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ib = Int(f[fi * 3 + 1])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:720:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ic = Int(f[fi * 3 + 2])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:724:24: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    cot[fi * 3]
+                    ~~~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:725:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ib * dim + a] - v[ic * dim + a])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:725:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ib * dim + a] - v[ic * dim + a])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:726:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ib * dim + b] - u[ic * dim + b])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:726:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ib * dim + b] - u[ic * dim + b])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:727:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    + cot[fi * 3 + 1]
+                      ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:728:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ic * dim + a] - v[ia * dim + a])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:728:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ic * dim + a] - v[ia * dim + a])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:729:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ic * dim + b] - u[ia * dim + b])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:729:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ic * dim + b] - u[ia * dim + b])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:730:26: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    + cot[fi * 3 + 2]
+                      ~~~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:731:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ia * dim + a] - v[ib * dim + a])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:731:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (v[ia * dim + a] - v[ib * dim + a])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:732:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ia * dim + b] - u[ib * dim + b])
+                       ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:732:43: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    * (u[ia * dim + b] - u[ib * dim + b])
+                                         ~^~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:734:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                cov[ia * 9 + a * 3 + b] += value
+                ~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:735:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                cov[ib * 9 + a * 3 + b] += value
+                ~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:736:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                cov[ic * 9 + a * 3 + b] += value
+                ~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:745:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ia = Int(f[fi * 3])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:746:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ib = Int(f[fi * 3 + 1])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:747:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var ic = Int(f[fi * 3 + 2])
+                     ~^~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:751:24: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var w = cot[fi * 3 + edge] / 3.0
+                    ~~~^~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:756:34: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                        rotations[ia * 9 + a * 3 + b]
+                        ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:757:36: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                        + rotations[ib * 9 + a * 3 + b]
+                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:758:36: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                        + rotations[ic * 9 + a * 3 + b]
+                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:760:39: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    value += ravg * (v[p * dim + b] - v[q * dim + b])
+                                     ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:760:56: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    value += ravg * (v[p * dim + b] - v[q * dim + b])
+                                                      ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:761:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                rhs[p * dim + a] += w * value
+                ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:762:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                rhs[q * dim + a] -= w * value
+                ~~~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:772:21: warning: '__add__' is deprecated, use 'unsafe_offset' instead
+        var h = cov + i * 9
+                ~~~~^~~~~~~
+<unknown>:0: note: '__add__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:773:27: warning: '__add__' is deprecated, use 'unsafe_offset' instead
+        var r = rotations + i * 9
+                ~~~~~~~~~~^~~~~~~
+<unknown>:0: note: '__add__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:776:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var cosine = h[0] + h[4]
+                         ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:776:34: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var cosine = h[0] + h[4]
+                                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:777:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var sine = h[1] - h[3]
+                       ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:777:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            var sine = h[1] - h[3]
+                              ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:780:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[0] = 1.0
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:781:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[4] = 1.0
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:785:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[0] = cosine
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:786:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[1] = -sine
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:787:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[3] = sine
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:788:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                r[4] = cosine
+                ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:791:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h00 = h[0]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:792:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h01 = h[1]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:793:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h02 = h[2]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:794:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h10 = h[3]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:795:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h11 = h[4]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:796:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h12 = h[5]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:797:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h20 = h[6]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:798:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h21 = h[7]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:799:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var h22 = h[8]
+                  ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:800:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[0] = h00 * h00 + h10 * h10 + h20 * h20
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:801:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[1] = h00 * h01 + h10 * h11 + h20 * h21
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:802:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[2] = h00 * h02 + h10 * h12 + h20 * h22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:803:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[3] = h[1]
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:803:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[3] = h[1]
+               ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:804:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[4] = h01 * h01 + h11 * h11 + h21 * h21
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:805:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[5] = h01 * h02 + h11 * h12 + h21 * h22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:806:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[6] = h[2]
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:806:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[6] = h[2]
+               ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:807:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[7] = h[5]
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:807:17: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[7] = h[5]
+               ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:808:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        h[8] = h02 * h02 + h12 * h12 + h22 * h22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:809:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[0] = 1.0
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:810:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[4] = 1.0
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:811:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[8] = 1.0
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:816:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var apq = h[p * 3 + q]
+                          ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:819:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var app = h[p * 3 + p]
+                          ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:820:28: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                var aqq = h[q * 3 + q]
+                          ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:832:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var akp = h[k * 3 + p]
+                              ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:833:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var akq = h[k * 3 + q]
+                              ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:836:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    h[k * 3 + p] = new_kp
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:837:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    h[p * 3 + k] = new_kp
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:838:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    h[k * 3 + q] = new_kq
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:839:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    h[q * 3 + k] = new_kq
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:840:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                h[p * 3 + p] = (
+                ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:845:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                h[q * 3 + q] = (
+                ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:850:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                h[p * 3 + q] = 0.0
+                ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:851:18: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                h[q * 3 + p] = 0.0
+                ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:853:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var vkp = r[k * 3 + p]
+                              ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:854:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    var vkq = r[k * 3 + q]
+                              ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:855:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    r[k * 3 + p] = cosine * vkp - sine * vkq
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:856:22: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                    r[k * 3 + q] = sine * vkp + cosine * vkq
+                    ~^~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:861:13: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d1 * 3 + d1] > h[d0 * 3 + d0]:
+           ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:861:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d1 * 3 + d1] > h[d0 * 3 + d0]:
+                            ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:864:13: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d2 * 3 + d2] > h[d0 * 3 + d0]:
+           ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:864:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d2 * 3 + d2] > h[d0 * 3 + d0]:
+                            ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:868:13: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d2 * 3 + d2] > h[d1 * 3 + d1]:
+           ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:868:30: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        if h[d2 * 3 + d2] > h[d1 * 3 + d1]:
+                            ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:873:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var s0 = sqrt(max(0.0, h[d0 * 3 + d0]))
+                               ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:874:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var s1 = sqrt(max(0.0, h[d1 * 3 + d1]))
+                               ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:875:33: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var s2 = sqrt(max(0.0, h[d2 * 3 + d2]))
+                               ~^~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:876:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u00 = (h00 * r[d0] + h01 * r[3 + d0] + h02 * r[6 + d0]) / s0
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:876:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u00 = (h00 * r[d0] + h01 * r[3 + d0] + h02 * r[6 + d0]) / s0
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:876:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u00 = (h00 * r[d0] + h01 * r[3 + d0] + h02 * r[6 + d0]) / s0
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:877:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u10 = (h10 * r[d0] + h11 * r[3 + d0] + h12 * r[6 + d0]) / s0
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:877:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u10 = (h10 * r[d0] + h11 * r[3 + d0] + h12 * r[6 + d0]) / s0
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:877:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u10 = (h10 * r[d0] + h11 * r[3 + d0] + h12 * r[6 + d0]) / s0
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:878:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u20 = (h20 * r[d0] + h21 * r[3 + d0] + h22 * r[6 + d0]) / s0
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:878:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u20 = (h20 * r[d0] + h21 * r[3 + d0] + h22 * r[6 + d0]) / s0
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:878:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u20 = (h20 * r[d0] + h21 * r[3 + d0] + h22 * r[6 + d0]) / s0
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:879:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u01 = (h00 * r[d1] + h01 * r[3 + d1] + h02 * r[6 + d1]) / s1
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:879:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u01 = (h00 * r[d1] + h01 * r[3 + d1] + h02 * r[6 + d1]) / s1
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:879:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u01 = (h00 * r[d1] + h01 * r[3 + d1] + h02 * r[6 + d1]) / s1
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:880:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u11 = (h10 * r[d1] + h11 * r[3 + d1] + h12 * r[6 + d1]) / s1
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:880:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u11 = (h10 * r[d1] + h11 * r[3 + d1] + h12 * r[6 + d1]) / s1
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:880:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u11 = (h10 * r[d1] + h11 * r[3 + d1] + h12 * r[6 + d1]) / s1
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:881:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u21 = (h20 * r[d1] + h21 * r[3 + d1] + h22 * r[6 + d1]) / s1
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:881:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u21 = (h20 * r[d1] + h21 * r[3 + d1] + h22 * r[6 + d1]) / s1
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:881:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var u21 = (h20 * r[d1] + h21 * r[3 + d1] + h22 * r[6 + d1]) / s1
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:886:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u02 = (h00 * r[d2] + h01 * r[3 + d2] + h02 * r[6 + d2]) / s2
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:886:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u02 = (h00 * r[d2] + h01 * r[3 + d2] + h02 * r[6 + d2]) / s2
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:886:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u02 = (h00 * r[d2] + h01 * r[3 + d2] + h02 * r[6 + d2]) / s2
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:887:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u12 = (h10 * r[d2] + h11 * r[3 + d2] + h12 * r[6 + d2]) / s2
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:887:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u12 = (h10 * r[d2] + h11 * r[3 + d2] + h12 * r[6 + d2]) / s2
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:887:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u12 = (h10 * r[d2] + h11 * r[3 + d2] + h12 * r[6 + d2]) / s2
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:888:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u22 = (h20 * r[d2] + h21 * r[3 + d2] + h22 * r[6 + d2]) / s2
+                         ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:888:41: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u22 = (h20 * r[d2] + h21 * r[3 + d2] + h22 * r[6 + d2]) / s2
+                                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:888:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            u22 = (h20 * r[d2] + h21 * r[3 + d2] + h22 * r[6 + d2]) / s2
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:895:14: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+            ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:895:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+                     ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:895:35: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+                                 ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:895:47: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+                                             ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:895:59: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d0] * (r[3 + d1] * r[6 + d2] - r[3 + d2] * r[6 + d1])
+                                                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:896:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+              ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:896:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:896:37: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+                                   ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:896:49: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+                                               ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:896:61: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            - r[d1] * (r[3 + d0] * r[6 + d2] - r[3 + d2] * r[6 + d0])
+                                                           ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:897:16: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+              ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:897:25: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+                       ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:897:37: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+                                   ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:897:49: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+                                               ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:897:61: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            + r[d2] * (r[3 + d0] * r[6 + d1] - r[3 + d1] * r[6 + d0])
+                                                           ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:900:14: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d2] = -r[d2]
+            ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:900:23: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[d2] = -r[d2]
+                     ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:901:14: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[3 + d2] = -r[3 + d2]
+            ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:901:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[3 + d2] = -r[3 + d2]
+                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:902:14: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[6 + d2] = -r[6 + d2]
+            ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:902:27: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+            r[6 + d2] = -r[6 + d2]
+                         ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:903:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v00 = r[d0]
+                  ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:904:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v10 = r[3 + d0]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:905:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v20 = r[6 + d0]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:906:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v01 = r[d1]
+                  ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:907:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v11 = r[3 + d1]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:908:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v21 = r[6 + d1]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:909:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v02 = r[d2]
+                  ~^~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:910:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v12 = r[3 + d2]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:911:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        var v22 = r[6 + d2]
+                  ~^~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:912:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[0] = v00 * u00 + v01 * u01 + v02 * u02
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:913:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[1] = v00 * u10 + v01 * u11 + v02 * u12
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:914:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[2] = v00 * u20 + v01 * u21 + v02 * u22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:915:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[3] = v10 * u00 + v11 * u01 + v12 * u02
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:916:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[4] = v10 * u10 + v11 * u11 + v12 * u12
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:917:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[5] = v10 * u20 + v11 * u21 + v12 * u22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:918:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[6] = v20 * u00 + v21 * u01 + v22 * u02
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:919:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[7] = v20 * u10 + v21 * u11 + v22 * u12
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
+/nvme0n1-disk/code/mojo-libigl/src/capi.mojo:920:10: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        r[8] = v20 * u20 + v21 * u21 + v22 * u22
+        ~^~~
+<unknown>:0: note: '__getitem__' declared here
